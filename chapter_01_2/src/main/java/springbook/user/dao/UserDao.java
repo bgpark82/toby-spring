@@ -22,8 +22,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Class.forName("org.h2.Driver");
-        Connection c = DriverManager.getConnection("jdbc:h2:tcp://localhost:1521/toby", "sa", "");
+        Connection c = getConnection();
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
@@ -40,5 +39,10 @@ public class UserDao {
         c.close();
 
         return user;
+    }
+
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+        return DriverManager.getConnection("jdbc:h2:tcp://localhost:1521/toby", "sa", "");
     }
 }
