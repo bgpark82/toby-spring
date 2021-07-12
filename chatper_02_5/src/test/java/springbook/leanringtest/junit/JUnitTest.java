@@ -2,30 +2,32 @@ package springbook.leanringtest.junit;
 
 import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
 public class JUnitTest {
 
-    static JUnitTest testObject;
+    static Set<JUnitTest> testObjects = new HashSet<JUnitTest>();
 
     @Test
     public void test1() {
-        assertThat(this, is(not(sameInstance(testObject))));
-        testObject = this;
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
     }
 
     @Test
     public void test2() {
-        assertThat(this, is(not(sameInstance(testObject))));
-        testObject = this;
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
     }
 
     @Test
     public void test3() {
-        assertThat(this, is(not(sameInstance(testObject))));
-        testObject = this;
+        assertThat(testObjects, not(hasItem(this)));
+        testObjects.add(this);
     }
 }
