@@ -55,20 +55,15 @@ public class UserDao  {
         return user;
     }
 
-    private PreparedStatement makeStatement(Connection c) throws SQLException {
-        PreparedStatement ps;
-        ps = c.prepareStatement("delete from users");
-        ps.executeUpdate();
-        return ps;
-    }
-
     public void deleteAll() throws SQLException, ClassNotFoundException {
         Connection c = null;
         PreparedStatement ps = null;
 
         try {
             c = dataSource.getConnection();
-            ps = makeStatement(c);
+            StatementStrategy strategy = new DeleteAllStatement();
+            ps = strategy.makePreparedStatement(c);
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw e;
         } finally {
