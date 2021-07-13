@@ -16,15 +16,9 @@ public class UserDao  {
         this.dataSource = dataSource;
     }
 
-    public void add(User user) throws ClassNotFoundException, SQLException {
+    public void add(final User user) throws  SQLException {
 
         class AddStatement implements StatementStrategy{
-
-            User user;
-
-            public AddStatement(User user) {
-                this.user = user;
-            }
 
             @Override
             public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
@@ -36,7 +30,7 @@ public class UserDao  {
             }
         }
 
-        AddStatement st = new AddStatement(user);
+        AddStatement st = new AddStatement();
         this.jdbcContextWithStatementStrategy(st);
     }
 
