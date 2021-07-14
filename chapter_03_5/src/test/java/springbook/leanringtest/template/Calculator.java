@@ -31,15 +31,6 @@ public class Calculator {
         }
     };
 
-    public String concatenate(String filePath) throws IOException {
-        return lineReadTemplate(filePath, new LineCallback<String>() {
-            @Override
-            public String doSomethingWithLine(String line, String value) {
-                return value + line;
-            }
-        }, "");
-    }
-
     public Integer calcSum(final String filePath) throws IOException {
         LineCallback<Integer> sumCallback = new LineCallback<Integer>() {
             @Override
@@ -51,7 +42,7 @@ public class Calculator {
     }
 
     public int calcMultiply(String filePath) throws IOException {
-        LineCallback multiplyCallback = new LineCallback<Integer>() {
+        LineCallback<Integer> multiplyCallback = new LineCallback<Integer>() {
             @Override
             public Integer doSomethingWithLine(String line, Integer value) {
                 return value * Integer.valueOf(line);
@@ -59,4 +50,9 @@ public class Calculator {
         };
         return lineReadTemplate(filePath, multiplyCallback, 1);
     };
+
+
+    public String concatenate(String filePath) throws IOException {
+        return lineReadTemplate(filePath, (line, value) -> value + line, "");
+    }
 }
