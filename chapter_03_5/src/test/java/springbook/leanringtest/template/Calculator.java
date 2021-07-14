@@ -40,4 +40,18 @@ public class Calculator {
             }
         });
     }
+
+    public int calcMultiply(String filePath) throws IOException {
+        return fileReadTemplate(filePath, new BufferedReaderCallback() {
+            @Override
+            public Integer doSomethingWithReader(BufferedReader br) throws IOException {
+                Integer multiply = 1;
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    multiply *= Integer.valueOf(line);
+                }
+                return multiply;
+            }
+        });
+    };
 }

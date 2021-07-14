@@ -24,4 +24,10 @@ public class CalcSumTest {
         int sum = calculator.calcSum(path);
         assertThat(sum, is(10));
     }
+
+    @Test
+    public void multiplyOfNumbers() throws IOException {
+        int multiply = calculator.calcMultiply(path);
+        assertThat(multiply, is(24));
+    }
 }
