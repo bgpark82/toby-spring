@@ -1,5 +1,6 @@
 package springbook.leanringtest.template;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -9,10 +10,18 @@ import static org.junit.Assert.assertThat;
 
 public class CalcSumTest {
 
+    Calculator calculator;
+    String path;
+
+    @Before
+    public void setUp() throws Exception {
+        this.calculator = new Calculator();
+        this.path = getClass().getResource("/numbers.txt").getPath();
+    }
+
     @Test
     public void sumOfNumbers() throws IOException {
-        Calculator calculator = new Calculator();
-        int sum = calculator.calcSum(getClass().getResource("/numbers.txt").getPath());
+        int sum = calculator.calcSum(path);
         assertThat(sum, is(10));
     }
 }
