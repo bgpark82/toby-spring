@@ -94,9 +94,9 @@ public class UserDaoXmlTest {
         dao.add(user3);
         List<User> users3 = dao.getAll();
         assertThat(users3.size(), is(3));
-        checkSameUser(user1, users3.get(0));
-        checkSameUser(user2, users3.get(1));
-        checkSameUser(user3, users3.get(2));
+        checkSameUser(user3, users3.get(0));
+        checkSameUser(user1, users3.get(1));
+        checkSameUser(user2, users3.get(2));
     }
 
     private void checkSameUser(User user1, User user2) {
