@@ -80,6 +80,9 @@ public class UserDaoXmlTest {
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
 
+        List<User> users0 = dao.getAll();
+        assertThat(users0.size(), is(0));
+
         dao.add(user1);
         List<User> users1 = dao.getAll();
         assertThat(users1.size(), is(1));
