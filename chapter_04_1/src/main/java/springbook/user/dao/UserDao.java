@@ -1,9 +1,11 @@
 package springbook.user.dao;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import springbook.user.domain.User;
+import springbook.user.exception.DuplicateUserIdException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -30,9 +32,13 @@ public class UserDao  {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void add(final User user) {
-        this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
-                user.getId(), user.getName(), user.getPassword());
+    public void add(final User user) throws DuplicateUserIdException {
+        try {
+            this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
+                    user.getId(), user.getName(), user.getPassword());
+        } catch (DataAccessException e) { // DataAccessException은 checked exception인 SQLException을 JDBC에서 감싼 Runtime Exception이다 (unchecked excpetion)
+            throw new DuplicateUserIdException(e);
+        }
     }
 
     public void deleteAll() {
