@@ -32,13 +32,10 @@ public class UserDaoJdbc implements UserDao{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void add(final User user) throws DuplicateUserIdException {
-        try {
-            this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
+    public void add(final User user) throws DuplicateKeyException {
+        this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
                     user.getId(), user.getName(), user.getPassword());
-        } catch (DuplicateKeyException e) { // DataAccessException은 checked exception인 SQLException을 JDBC에서 감싼 Runtime Exception이다 (unchecked excpetion)
-            throw new DuplicateUserIdException(e);
-        }
+
     }
 
     public void deleteAll() {
