@@ -1,6 +1,6 @@
 package springbook.user.dao;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -36,7 +36,7 @@ public class UserDao  {
         try {
             this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)",
                     user.getId(), user.getName(), user.getPassword());
-        } catch (DataAccessException e) { // DataAccessException은 checked exception인 SQLException을 JDBC에서 감싼 Runtime Exception이다 (unchecked excpetion)
+        } catch (DuplicateKeyException e) { // DataAccessException은 checked exception인 SQLException을 JDBC에서 감싼 Runtime Exception이다 (unchecked excpetion)
             throw new DuplicateUserIdException(e);
         }
     }
@@ -56,7 +56,7 @@ public class UserDao  {
                 this.userMapper);
     }
 
-    public int getCount() throws SQLException {
+    public int getCount()  {
         return this.jdbcTemplate.queryForInt("select count(*) from users");
     }
 
