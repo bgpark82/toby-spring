@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import springbook.user.dao.UserDao;
 import springbook.user.domain.User;
+import springbook.user.exception.DuplicateUserIdException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -103,7 +104,7 @@ public class UserDaoXmlTest {
         checkSameUser(user2, users3.get(2));
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = DuplicateUserIdException.class)
     public void duplicateKey() {
         dao.deleteAll();
 
