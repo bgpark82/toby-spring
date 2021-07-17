@@ -12,34 +12,22 @@ public class UserService {
     public static final int MIN_RECOMMEND_FOR_GOLD = 50;
 
     UserDao userDao;
+    UserLevelUpgradePolicy levelUpgradePolicy;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
 
+    public void setLevelUpgradePolicy(UserLevelUpgradePolicy levelUpgradePolicy) {
+        this.levelUpgradePolicy = levelUpgradePolicy;
+    }
+
     public void upgradeLevels() {
         List<User> users = this.userDao.getAll();
         for (User user : users) {
-            if (canUpgradeLevel(user)) {
-                upgradeLevel(user);
+            if (levelUpgradePolicy.canUpgradeLevel(user)) {
+                levelUpgradePolicy.upgradeLevel(user);
             }
-        }
-    }
-
-    private void upgradeLevel(User user) {
-        user.upgradeLevel();
-        userDao.update(user);
-    }
-
-    private boolean canUpgradeLevel(User user) {
-        Level currentLevel = user.getLevel();
-        switch (currentLevel) {
-            case BASIC:
-
-                return user.getLogin() >= MIN_LOGIN_COUNT_FOR_SILVER;
-            case SILVER: return user.getRecommend() >= MIN_RECOMMEND_FOR_GOLD;
-            case GOLD: return false;
-            default: throw new IllegalArgumentException("Unknown Level: " + currentLevel);
         }
     }
 
