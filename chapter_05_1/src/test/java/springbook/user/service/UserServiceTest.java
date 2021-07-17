@@ -15,6 +15,8 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static springbook.user.service.UserService.MIN_LOGIN_COUNT_FOR_SILVER;
+import static springbook.user.service.UserService.MIN_RECOMMEND_FOR_GOLD;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/test-applicationContext.xml")
@@ -30,11 +32,11 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         users = Arrays.asList(
-                new User("bumjin", "박범진", "p1", Level.BASIC, 49, 0),
-                new User("joytouch", "강명성", "p2", Level.BASIC, 50, 0),
-                new User("erwins", "신승한", "p3", Level.SILVER, 60, 29),
-                new User("madnite1", "이상호", "p4", Level.SILVER, 60, 30),
-                new User("green", "오민규", "p5", Level.GOLD, 100, 100)
+                new User("bumjin", "박범진", "p1", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER - 1, 0),
+                new User("joytouch", "강명성", "p2", Level.BASIC, MIN_LOGIN_COUNT_FOR_SILVER, 0),
+                new User("erwins", "신승한", "p3", Level.SILVER, 60, MIN_RECOMMEND_FOR_GOLD - 1),
+                new User("madnite1", "이상호", "p4", Level.SILVER, 60, MIN_RECOMMEND_FOR_GOLD),
+                new User("green", "오민규", "p5", Level.GOLD, 100, Integer.MAX_VALUE)
         );
     }
 
