@@ -20,7 +20,7 @@
 
     <bean id="mailSender" class="springbook.user.service.DummyMailSender" />
 
-    <bean id="userService" class="springbook.user.service.UserService">
+    <bean id="userService" class="springbook.user.service.UserServiceImpl">
         <property name="transactionManager" ref="transactionManager" />
         <property name="userDao" ref="userDao" />
         <property name="mailSender" ref="mailSender" />

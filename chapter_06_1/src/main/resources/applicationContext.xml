@@ -22,7 +22,7 @@
         <property name="host" value="mail.server.com" />
     </bean>
 
-    <bean id="userService" class="springbook.user.service.UserService">
+    <bean id="userService" class="springbook.user.service.UserServiceImpl">
         <property name="transactionManager" ref="transactionManager" />
         <property name="userDao" ref="userDao" />
         <property name="mailSender" ref="mailSender" />
