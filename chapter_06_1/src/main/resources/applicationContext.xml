@@ -18,13 +18,20 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
         <property name="host" value="mail.server.com" />
     </bean>
 
-    <bean id="userService" class="springbook.user.service.UserServiceImpl">
-        <property name="transactionManager" ref="transactionManager" />
+    <bean id="userServiceImpl" class="springbook.user.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
         <property name="mailSender" ref="mailSender" />
     </bean>
+
+    <bean id="userService" class="springbook.user.service.UserServiceTx">
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="userService" ref="userServiceImpl" />
+    </bean>
+
+
+
 </beans>
