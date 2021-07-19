@@ -27,7 +27,9 @@ import static springbook.user.service.UserServiceImpl.MIN_RECOMMEND_FOR_GOLD;
 public class UserServiceTest {
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
+    @Autowired
+    UserServiceImpl userServiceImpl;
     @Autowired
     UserDao userDao;
     @Autowired
@@ -57,9 +59,9 @@ public class UserServiceTest {
         }
 
         MockMailSender mockMailSender = new MockMailSender();
-        userService.setMailSender(mockMailSender);
+        userServiceImpl.setMailSender(mockMailSender);
 
-        userService.upgradeLevels();
+        userServiceImpl.upgradeLevels();
 
         checkLevelUpgraded(users.get(0), false);
         checkLevelUpgraded(users.get(1), true);
@@ -90,8 +92,8 @@ public class UserServiceTest {
         User emptyLevelUser = users.get(0);
         emptyLevelUser.setLevel(null);
 
-        userService.add(goldLevelUser);
-        userService.add(emptyLevelUser);
+        userServiceImpl.add(goldLevelUser);
+        userServiceImpl.add(emptyLevelUser);
 
         User goldLevelAddedUser = userDao.get(goldLevelUser.getId());
         User emptyLevelAddedUser = userDao.get(emptyLevelUser.getId());
@@ -105,13 +107,16 @@ public class UserServiceTest {
         TestUserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
         testUserService.setMailSender(this.mailSender);
-        testUserService.setTransactionManager(this.transactionManager);
+
+        UserServiceTx userServiceTx = new UserServiceTx();
+        userServiceTx.setTransactionManager(transactionManager);
+        userServiceTx.setUserService(testUserService);
 
         userDao.deleteAll();
         for (User user: users) userDao.add(user);
 
         try {
-            testUserService.upgradeLevels();
+            userServiceTx.upgradeLevels();
             fail("TestUserServiceException expected");
         } catch (TestUserServiceException e) {
 
