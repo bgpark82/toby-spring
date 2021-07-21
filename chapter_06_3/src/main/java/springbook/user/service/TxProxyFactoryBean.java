@@ -33,7 +33,7 @@ public class TxProxyFactoryBean implements FactoryBean<Object> {
     public Object getObject() throws Exception {
         TransactionHandler txHandler = new TransactionHandler();
         txHandler.setTarget(target);
-        txHandler.setTarget(transactionManager);
+        txHandler.setTransactionManager(transactionManager);
         txHandler.setPattern(pattern);
 
         return Proxy.newProxyInstance(
