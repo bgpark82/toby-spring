@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -55,5 +56,11 @@ public class ReflectionTest {
         assertThat(proxiedHello.sayHello("Toby"), is("HELLO TOBY"));
         assertThat(proxiedHello.sayHi("Toby"), is("HI TOBY"));
         assertThat(proxiedHello.sayThankYou("Toby"), is("THANK YOU TOBY"));
+    }
+
+    @Test
+    public void newInstanceTest() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        Date date = (Date) Class.forName("java.util.Date").newInstance();
+        System.out.println(date);
     }
 }
