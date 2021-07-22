@@ -30,6 +30,12 @@
         <property name="mappedName" value="upgrade*"/>
     </bean>
 
+    <!-- advisor-->
+    <bean id="transactionAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="transactionAdvice"/>
+        <property name="pointcut" ref="transactinoPointcut"/>
+    </bean>
+
     <!-- 데코레이터 -->
     <bean id="userService" class="springbook.user.service.TxProxyFactoryBean">
         <property name="target" ref="userServiceImpl"/>
