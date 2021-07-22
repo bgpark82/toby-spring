@@ -25,6 +25,11 @@
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
 
+    <!-- pointcut-->
+    <bean id="transactinoPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="upgrade*"/>
+    </bean>
+
     <!-- 데코레이터 -->
     <bean id="userService" class="springbook.user.service.TxProxyFactoryBean">
         <property name="target" ref="userServiceImpl"/>
