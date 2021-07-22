@@ -31,7 +31,7 @@ public class TxProxyFactoryBean implements FactoryBean<Object> {
 
     @Override
     public Object getObject() throws Exception {
-        TransactionHandler txHandler = new TransactionHandler();
+        TransactionAdvice txHandler = new TransactionAdvice();
         txHandler.setTarget(target);
         txHandler.setTransactionManager(transactionManager);
         txHandler.setPattern(pattern);
