@@ -46,6 +46,9 @@
         </property>
     </bean>
 
+    <!-- DefaultAdvisorAutoProxyCreator-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
     <!-- 타겟 -->
     <bean id="userServiceImpl" class="springbook.user.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
