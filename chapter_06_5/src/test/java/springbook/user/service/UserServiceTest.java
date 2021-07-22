@@ -140,13 +140,9 @@ public class UserServiceTest {
         checkLevelUpgraded(users.get(1), false);
     }
 
-    static class TestUserService extends UserServiceImpl {
+    static class TestUserServiceImpl extends UserServiceImpl {
 
-        private String id;
-
-        private TestUserService(String id) {
-            this.id = id;
-        }
+        private String id = "madnite1";
 
         @Override
         protected void upgradeLevel(User user) {
