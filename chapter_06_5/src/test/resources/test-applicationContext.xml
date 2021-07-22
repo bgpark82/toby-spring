@@ -26,8 +26,9 @@
     </bean>
 
     <!-- pointcut-->
-    <bean id="transactinoPointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
-        <property name="mappedName" value="upgrade*"/>
+    <bean id="transactinoPointcut" class="springbook.user.service.NameMatchClassMethodPointcut">
+        <property name="mappedClassName" value="*ServiceImpl"/>
+        <property name="mappedName" value="upgrade*" />
     </bean>
 
     <!-- advisor-->
