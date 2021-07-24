@@ -40,6 +40,9 @@
         <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)" />
     </aop:config>
 
+    <!-- @Transactional-->
+    <tx:annotation-driven />
+
     <!-- 타겟 -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
