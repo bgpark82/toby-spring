@@ -32,8 +32,6 @@ public class UserServiceTest {
 
     @Autowired
     UserService userService;
-//    @Autowired
-//    UserService userServiceImpl;
     @Autowired
     UserService testUserService;
     @Autowired
