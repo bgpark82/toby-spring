@@ -2,18 +2,15 @@ package springbook.user.dao;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import springbook.user.domain.Level;
 import springbook.user.domain.User;
+import springbook.user.sqlService.SqlService;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class UserDaoJdbc implements UserDao{
 
@@ -33,10 +30,10 @@ public class UserDaoJdbc implements UserDao{
         }
     };
 
-    private Map<String, String> sqlMap;
+    private SqlService sqlService;
 
-    public void setSqlMap(Map<String, String> sqlMap) {
-        this.sqlMap = sqlMap;
+    public void setSqlService(SqlService sqlService) {
+        this.sqlService = sqlService;
     }
 
     public void setDataSource(DataSource dataSource) {
@@ -44,35 +41,29 @@ public class UserDaoJdbc implements UserDao{
     }
 
     public void add(final User user) throws DuplicateKeyException {
-        this.jdbcTemplate.update(
-                this.sqlMap.get("add"),
+        this.jdbcTemplate.update(this.sqlService.getSql("userAdd"),
                 user.getId(), user.getName(), user.getPassword(), user.getEmail(),
                 user.getLevel().intValue(), user.getLogin(), user.getRecommend());
 
     }
 
     public void deleteAll() {
-        this.jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                return connection.prepareStatement("delete from users");
-            }
-        });
+        this.jdbcTemplate.update(this.sqlService.getSql("userDeleteAll"));
     }
 
     public User get(String id)  {
-        return this.jdbcTemplate.queryForObject("select * from users where id = ?",
+        return this.jdbcTemplate.queryForObject(this.sqlService.getSql("userGet"),
                 new Object[] {id},
                 this.userMapper);
     }
 
     public int getCount()  {
-        return this.jdbcTemplate.queryForInt("select count(*) from users");
+        return this.jdbcTemplate.queryForInt(this.sqlService.getSql("userGetCount"));
     }
 
     @Override
     public void update(User user) {
-        this.jdbcTemplate.update("update users set name = ?, password = ?, level = ?, login = ?, recommend = ? where id = ?",
+        this.jdbcTemplate.update(this.sqlService.getSql("userUpdate"),
                 user.getName(),
                 user.getPassword(),
                 user.getLevel().intValue(),
@@ -82,6 +73,7 @@ public class UserDaoJdbc implements UserDao{
     }
 
     public List<User> getAll() {
-        return this.jdbcTemplate.query("select * from users order by id", this.userMapper);
+        return this.jdbcTemplate.query(this.sqlService.getSql("userGetAll"),
+                this.userMapper);
     }
 }
