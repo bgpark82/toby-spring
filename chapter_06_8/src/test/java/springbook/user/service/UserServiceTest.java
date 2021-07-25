@@ -159,6 +159,14 @@ public class UserServiceTest {
         }
     }
 
+    @Test
+    public void transactionSync() {
+        userService.deleteAll();
+
+        userService.add(users.get(0));
+        userService.add(users.get(1));
+    }
+
     static class TestUserServiceException extends RuntimeException {
     }
 
