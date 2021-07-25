@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -196,6 +197,15 @@ public class UserServiceTest {
     @Test(expected = TransientDataAccessResourceException.class)
     @Transactional(readOnly = true)
     public void transactionSyncAnnotation() {
+        userDao.deleteAll();
+        userService.add(users.get(0));
+        userService.add(users.get(1));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void transactionSyncRollbackAnnotation() {
         userDao.deleteAll();
         userService.add(users.get(0));
         userService.add(users.get(1));
