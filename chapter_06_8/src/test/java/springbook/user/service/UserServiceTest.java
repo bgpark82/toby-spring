@@ -163,17 +163,19 @@ public class UserServiceTest {
 
     @Test
     public void transactionSync() {
-        DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition(); // 트랜스엑션 정의 기본값 사용
-        txDefinition.setReadOnly(true);
-        TransactionStatus txStatus = transactionManager.getTransaction(txDefinition); // 트랜잭션 매니저에게 트랜잭션 요청, 기존에 트랜잭션 없으니 새로운 트랜잭션을 시작시키고 트랜잭션 정보를 돌려준다. 동시에 만들어진 트랜잭션을 다른 곳에서 사용할 수 있도록 동기화 한다
-
-        // 앞서 생성된 트랜잭션에 모두 참여
         userDao.deleteAll();
+        assertThat(userDao.getCount(), is(0)); // 트랜잭션 롤백했을 떄 돌아갈 초기 상태를 만든다
+
+        DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition(); // 트랜스엑션 정의 기본값 사용
+        TransactionStatus txStatus = transactionManager.getTransaction(txDefinition); // 트랜잭션 매니저에게 트랜잭션 요청, 기존에 트랜잭션 없으니 새로운 트랜잭션을 시작시키고 트랜잭션 정보를 돌려준다. 동시에 만들어진 트랜잭션을 다른 곳에서 사용할 수 있도록 동기화 한다
 
         userService.add(users.get(0));
         userService.add(users.get(1));
+        assertThat(userDao.getCount(), is(2)); // userDao의 getCount도 같은 트랜잭션에서 동작, add 이후 두개 등록 확인
 
-        transactionManager.commit(txStatus);
+        transactionManager.rollback(txStatus); // 강제 롤백
+
+        assertThat(userDao.getCount(), is(0)); // add 작업 취소 확인
     }
 
     static class TestUserServiceException extends RuntimeException {
