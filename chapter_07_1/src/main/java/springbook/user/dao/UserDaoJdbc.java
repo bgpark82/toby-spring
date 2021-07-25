@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoJdbc implements UserDao{
 
@@ -32,10 +33,10 @@ public class UserDaoJdbc implements UserDao{
         }
     };
 
-    private String sqlAdd;
+    private Map<String, String> sqlMap;
 
-    public void setSqlAdd(String sqlAdd) {
-        this.sqlAdd = sqlAdd;
+    public void setSqlMap(Map<String, String> sqlMap) {
+        this.sqlMap = sqlMap;
     }
 
     public void setDataSource(DataSource dataSource) {
@@ -44,7 +45,7 @@ public class UserDaoJdbc implements UserDao{
 
     public void add(final User user) throws DuplicateKeyException {
         this.jdbcTemplate.update(
-                this.sqlAdd,
+                this.sqlMap.get("add"),
                 user.getId(), user.getName(), user.getPassword(), user.getEmail(),
                 user.getLevel().intValue(), user.getLogin(), user.getRecommend());
 
