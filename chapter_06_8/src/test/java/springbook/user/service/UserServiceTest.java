@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import springbook.user.dao.UserDao;
 import springbook.user.domain.Level;
@@ -190,6 +191,14 @@ public class UserServiceTest {
         } finally {
             transactionManager.rollback(txStatus); // 테스트 결과에 상관없이 테스트 끝나면 무조건 롤백, 테스트 중 발생한 DB 변경사항은 모두 이전 상태로 복구
         }
+    }
+
+    @Test(expected = TransientDataAccessResourceException.class)
+    @Transactional(readOnly = true)
+    public void transactionSyncAnnotation() {
+        userDao.deleteAll();
+        userService.add(users.get(0));
+        userService.add(users.get(1));
     }
 
     static class TestUserServiceException extends RuntimeException {
