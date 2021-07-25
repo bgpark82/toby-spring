@@ -178,6 +178,20 @@ public class UserServiceTest {
         assertThat(userDao.getCount(), is(0)); // add 작업 취소 확인
     }
 
+    @Test
+    public void transactionSyncRollback() {
+        DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition();
+        TransactionStatus txStatus = transactionManager.getTransaction(txDefinition); // 테스트 모든 작업을 하나의 트랜잭션으로 통합
+
+        try {
+            userDao.deleteAll();
+            userService.add(users.get(0));
+            userService.add(users.get(1));
+        } finally {
+            transactionManager.rollback(txStatus); // 테스트 결과에 상관없이 테스트 끝나면 무조건 롤백, 테스트 중 발생한 DB 변경사항은 모두 이전 상태로 복구
+        }
+    }
+
     static class TestUserServiceException extends RuntimeException {
     }
 
