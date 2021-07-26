@@ -20,7 +20,7 @@ public class XmlSqlService implements SqlService{
         this.sqlmapFile = sqlmapFile;
     }
 
-    public XmlSqlService() {
+    public void loadSql() {
         String contextPath = Sqlmap.class.getPackage().getName();
 
         try {
