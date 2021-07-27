@@ -48,29 +48,16 @@ public class XmlSqlService implements SqlService, SqlRegistry, SqlReader{
 
     @PostConstruct
     public void loadSql() {
-        String contextPath = Sqlmap.class.getPackage().getName();
-
-        try {
-            JAXBContext context = JAXBContext.newInstance(contextPath);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            InputStream is = UserDao.class.getResourceAsStream(this.sqlmapFile);
-            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(is);
-
-            for (SqlType sql : sqlmap.getSql()) {
-                sqlMap.put(sql.getKey(), sql.getValue());
-            }
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+        this.sqlReader.read(this.sqlRegistry);
     }
 
     @Override
     public String getSql(String key) throws SqlRetrievalFailureException {
-        String sql = sqlMap.get(key);
-        if (sql == null) {
+        try {
+            return this.sqlRegistry.findSql(key);
+        } catch (SqlNotFoundException e) {
             throw new SqlRetrievalFailureException(key + "를 이용해서 SQL을 찾을 수 없습니다");
         }
-        return sql;
     }
 
     @Override
