@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlSqlService implements SqlService, SqlRegistry{
+public class XmlSqlService implements SqlService, SqlRegistry, SqlReader{
 
     private SqlReader sqlReader;
     private SqlRegistry sqlRegistry;
@@ -71,5 +71,23 @@ public class XmlSqlService implements SqlService, SqlRegistry{
             throw new SqlRetrievalFailureException(key + "를 이용해서 SQL을 찾을 수 없습니다");
         }
         return sql;
+    }
+
+    @Override
+    public void read(SqlRegistry sqlRegistry) {
+        String contextPath = Sqlmap.class.getPackage().getName();
+
+        try {
+            JAXBContext context = JAXBContext.newInstance(contextPath);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            InputStream is = UserDao.class.getResourceAsStream(this.sqlmapFile);
+            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(is);
+
+            for (SqlType sql : sqlmap.getSql()) {
+                sqlRegistry.registerSql(sql.getKey(), sql.getValue());
+            }
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
