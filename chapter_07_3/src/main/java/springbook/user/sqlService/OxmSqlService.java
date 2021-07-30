@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class OxmSqlService implements SqlService{
 
+    private final BaseSqlService baseSqlService = new BaseSqlService();
+
     private final OxmSqlReader oxmSqlReader = new OxmSqlReader();
 
     private SqlRegistry sqlRegistry = new HashMapSqlRegistry();
@@ -30,16 +32,15 @@ public class OxmSqlService implements SqlService{
     
     @PostConstruct
     public void loadSql() {
-        this.oxmSqlReader.read(this.sqlRegistry);
+        this.baseSqlService.setSqlReader(this.oxmSqlReader);
+        this.baseSqlService.setSqlRegistry(this.sqlRegistry);
+
+        this.baseSqlService.loadSql();
     }
 
     @Override
     public String getSql(String key) throws SqlRetrievalFailureException {
-        try {
-            return this.sqlRegistry.findSql(key);
-        } catch (SqlNotFoundException e) {
-            throw new SqlRetrievalFailureException("Sql을 불러올 수 없습니다");
-        }
+        return this.baseSqlService.getSql(key);
     }
 
     private class OxmSqlReader implements SqlReader{
