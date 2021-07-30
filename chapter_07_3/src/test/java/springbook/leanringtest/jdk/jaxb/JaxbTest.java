@@ -1,8 +1,8 @@
 package springbook.leanringtest.jdk.jaxb;
 
 import org.junit.Test;
-import springbook.user.sqlService.jsxb.SqlType;
-import springbook.user.sqlService.jsxb.Sqlmap;
+import springbook.user.sqlService.jaxb.SqlType;
+import springbook.user.sqlService.jaxb.Sqlmap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

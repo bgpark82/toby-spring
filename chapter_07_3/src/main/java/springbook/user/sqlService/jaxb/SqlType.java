@@ -6,7 +6,7 @@
 //
 
 
-package springbook.user.sqlService.jsxb;
+package springbook.user.sqlService.jaxb;
 
 import javax.xml.bind.annotation.*;
 

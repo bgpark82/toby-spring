@@ -1,8 +1,8 @@
 package springbook.user.sqlService;
 
 import springbook.user.dao.UserDao;
-import springbook.user.sqlService.jsxb.SqlType;
-import springbook.user.sqlService.jsxb.Sqlmap;
+import springbook.user.sqlService.jaxb.SqlType;
+import springbook.user.sqlService.jaxb.Sqlmap;
 
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
