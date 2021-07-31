@@ -16,7 +16,7 @@ public class EmbeddedDbSqlRegistry implements UpdatableSqlRegistry{
 
     @Override
     public void registerSql(String key, String sql) {
-        jdbc.update("insert into sqlmap(key_, sql_) value(?,?)", key, sql);
+        jdbc.update("insert into sqlmap(key_, sql_) values(?,?)", key, sql);
     }
 
     @Override
