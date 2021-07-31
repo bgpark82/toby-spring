@@ -26,7 +26,7 @@
         <property name="sqlmapFile" value="sqlmap.xml" />
     </bean>
 
-    <bean id="sqlRegistry" class="springbook.user.sqlService.HashMapSqlRegistry"></bean>
+    <bean id="sqlRegistry" class="springbook.user.sqlService.ConcurrentHashMapSqlRegistry"></bean>
 
     <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="contextPath" value="springbook.user.sqlService.jaxb"/>
@@ -34,7 +34,7 @@
 
     <bean id="sqlService" class="springbook.user.sqlService.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller"/>
-        <property name="sqlmap" value="classpath:springbook/user/dao/sqlmap.xml"/>
+        <property name="sqlRegistry" ref="sqlRegistry"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
