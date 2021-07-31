@@ -26,15 +26,15 @@
         <property name="sqlmapFile" value="sqlmap.xml" />
     </bean>
 
-    <bean id="sqlRegistry" class="springbook.user.sqlService.HashMapSqlRegistry"></bean>
+    <bean id="sqlRegistry" class="springbook.user.sqlService.MyUpdatableSqlRegistry"></bean>
 
-    <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="contextPath" value="springbook.user.sqlService.jaxb"/>
+    <bean id="sqlService" class="springbook.user.sqlService.BaseSqlService">
+        <property name="sqlRegistry" ref="sqlRegistry"/>
+        <property name="sqlReader" ref="sqlReader"/>
     </bean>
 
-    <bean id="sqlService" class="springbook.user.sqlService.OxmSqlService">
-        <property name="unmarshaller" ref="unmarshaller"/>
-        <property name="sqlmap" value="classpath:springbook/user/dao/sqlmap.xml"/>
+    <bean id="sqlAdminService" class="springbook.user.sqlService.SqlAdminService">
+        <property name="updatableSqlRegistry" ref="sqlRegistry" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
