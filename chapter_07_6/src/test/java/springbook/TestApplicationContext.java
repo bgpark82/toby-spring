@@ -8,6 +8,8 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.mail.MailSender;
+import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 import springbook.user.dao.UserDao;
 import springbook.user.dao.UserDaoJdbc;
@@ -15,8 +17,12 @@ import springbook.user.service.DummyMailSender;
 import springbook.user.service.UserService;
 import springbook.user.service.UserServiceImpl;
 import springbook.user.service.UserServiceTest.TestUserServiceImpl;
+import springbook.user.sqlService.EmbeddedDbSqlRegistry;
+import springbook.user.sqlService.OxmSqlService;
+import springbook.user.sqlService.SqlRegistry;
 import springbook.user.sqlService.SqlService;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
@@ -73,4 +79,30 @@ public class TestApplicationContext {
     public MailSender mailSender() {
         return new DummyMailSender();
     }
+
+    @Bean
+    public SqlService sqlService() {
+        OxmSqlService sqlService = new OxmSqlService();
+        sqlService.setUnmarshaller(unmarshaller());
+        sqlService.setSqlRegistry(sqlRegistry());
+        return sqlService;
+    }
+
+    @Resource
+    DataSource embeddedDatabase;
+
+    @Bean
+    public SqlRegistry sqlRegistry() {
+        EmbeddedDbSqlRegistry sqlRegistry = new EmbeddedDbSqlRegistry();
+        sqlRegistry.setDataSource(embeddedDatabase);
+        return sqlRegistry;
+    }
+
+    @Bean
+    public Unmarshaller unmarshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setContextPath("springbook.user.sqlService.jaxb");
+        return marshaller;
+    }
+
 }
