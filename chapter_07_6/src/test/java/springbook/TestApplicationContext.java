@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springbook.user.dao.UserDao;
 import springbook.user.service.DummyMailSender;
 import springbook.user.service.UserService;
-import springbook.user.service.UserServiceImpl;
 import springbook.user.service.UserServiceTest.TestUserServiceImpl;
 import springbook.user.sqlService.EmbeddedDbSqlRegistry;
 import springbook.user.sqlService.OxmSqlService;
@@ -52,14 +51,6 @@ public class TestApplicationContext {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
-    }
-
-    @Bean
-    public UserService userService() {
-        UserServiceImpl service = new UserServiceImpl();
-        service.setUserDao(userDao);
-        service.setMailSender(mailSender());
-        return service;
     }
 
     @Bean
