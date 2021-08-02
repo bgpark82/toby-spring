@@ -145,7 +145,7 @@ public class UserServiceTest {
         testUserService.getAll();
     }
 
-    static class TestUserServiceImpl extends UserServiceImpl {
+    public static class TestUserServiceImpl extends UserServiceImpl {
 
         private String id = "madnite1";
 
