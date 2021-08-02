@@ -43,8 +43,6 @@
     <!-- @Transactional-->
     <tx:annotation-driven />
 
-    <context:annotation-config />
-
     <!-- 타겟 -->
     <bean id="userService" class="springbook.user.service.UserServiceImpl">
         <property name="userDao" ref="userDao" />
