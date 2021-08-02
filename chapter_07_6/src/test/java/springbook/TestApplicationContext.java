@@ -1,6 +1,7 @@
 package springbook;
 
 import com.mysql.jdbc.Driver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
@@ -14,12 +15,16 @@ import springbook.user.service.DummyMailSender;
 import springbook.user.service.UserService;
 import springbook.user.service.UserServiceImpl;
 import springbook.user.service.UserServiceTest.TestUserServiceImpl;
+import springbook.user.sqlService.SqlService;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ImportResource("/test-applicationContext.xml")
 public class TestApplicationContext {
+
+    @Autowired
+    private SqlService sqlService;
 
     @Bean
     public DataSource dataSource() {
@@ -44,7 +49,7 @@ public class TestApplicationContext {
     public UserDao userDao() {
         UserDaoJdbc dao = new UserDaoJdbc();
         dao.setDataSource(dataSource());
-        dao.setSqlService(sqlService());
+        dao.setSqlService(sqlService);
         return dao;
     }
 
