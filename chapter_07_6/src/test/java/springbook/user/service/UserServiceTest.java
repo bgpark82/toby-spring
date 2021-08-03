@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessResourceException;
 import org.springframework.mail.MailSender;
@@ -50,6 +51,8 @@ public class UserServiceTest {
     MailSender mailSender;
     @Autowired
     ApplicationContext context;
+    @Autowired
+    DefaultListableBeanFactory bf;
 
     List<User> users;
 
@@ -212,6 +215,13 @@ public class UserServiceTest {
         userDao.deleteAll();
         userService.add(users.get(0));
         userService.add(users.get(1));
+    }
+
+    @Test
+    public void beans() {
+        for (String n: bf.getBeanDefinitionNames()) {
+            System.out.println(n + " \t " + bf.getBean(n).getClass().getName());
+        }
     }
 
     static class TestUserServiceException extends RuntimeException {
