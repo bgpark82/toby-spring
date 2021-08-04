@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springbook.user.service.DummyMailSender;
 import springbook.user.service.UserService;
 import springbook.user.service.UserServiceTest;
+import springbook.user.sqlService.SqlMapConfig;
+import springbook.user.sqlService.UserSqlMapConfig;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
@@ -48,6 +50,11 @@ public class AppContext {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
+    }
+
+    @Bean
+    public SqlMapConfig sqlMapConfig() {
+        return new UserSqlMapConfig();
     }
 
     @Configuration
