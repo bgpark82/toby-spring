@@ -2,9 +2,11 @@ package springbook;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import springbook.user.dao.UserDao;
 import springbook.user.sqlService.EmbeddedDbSqlRegistry;
 import springbook.user.sqlService.OxmSqlService;
 import springbook.user.sqlService.SqlRegistry;
@@ -22,9 +24,9 @@ public class SqlServiceContext {
         OxmSqlService sqlService = new OxmSqlService();
         sqlService.setUnmarshaller(unmarshaller());
         sqlService.setSqlRegistry(sqlRegistry());
+        sqlService.setSqlmap(new ClassPathResource("sqlmap.xml", UserDao.class));
         return sqlService;
     }
-
 
     @Bean
     public SqlRegistry sqlRegistry() {

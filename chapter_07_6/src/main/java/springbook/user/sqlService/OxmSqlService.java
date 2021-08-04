@@ -3,7 +3,6 @@ package springbook.user.sqlService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.oxm.Unmarshaller;
-import springbook.user.dao.UserDao;
 import springbook.user.sqlService.jaxb.SqlType;
 import springbook.user.sqlService.jaxb.Sqlmap;
 
@@ -50,7 +49,7 @@ public class OxmSqlService implements SqlService{
         private static final String DEFAULT_SQLMAP_FILE = "sqlmap.xml";
 
         private Unmarshaller unmarshaller;
-        private Resource sqlmap = new ClassPathResource("sqlmap.xml", UserDao.class); // Resource의 구현클래스인 ClassPathResource 사용
+        private Resource sqlmap = new ClassPathResource("sqlmap.xml"); // Resource의 구현클래스인 ClassPathResource 사용
 
         public void setUnmarshaller(Unmarshaller unmarshaller) {
             this.unmarshaller = unmarshaller;
